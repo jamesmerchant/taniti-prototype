@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Taniti · horizon</title>
+    <style>
+        /* ----- color system : purple, neon blue, orange, light purple ----- */
+        :root {
+            --deep-purple: #2A1B4D;      /* header, footer, primary dark */
+            --mid-purple: #4A2E7A;       /* cards, accents */
+            --neon-blue: #00E0FF;        /* bright accent, buttons */
+            --orange: #FF8A3D;           /* secondary accent, badges */
+            --light-purple: #E6D9FF;     /* backgrounds, borders */
+            --soft-lavender: #F7F3FF;    /* page background */
+            --text-dark: #1E122E;        /* body text */
+            --text-soft: #3F2D5C;        /* secondary text */
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: var(--soft-lavender);
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding-bottom: 0;
+        }
+
+        /* ----- header / navigation ----- */
+        header {
+            background: var(--deep-purple);
+            color: var(--white);
+            padding: 16px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 14px rgba(42, 27, 77, 0.3);
+            border-bottom: 3px solid var(--neon-blue);
+        }
+
+        .brand {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--white);
+            text-shadow: 0 0 8px rgba(0, 224, 255, 0.5);
+        }
+
+        .sub {
+            font-size: 12px;
+            color: var(--light-purple);
+            opacity: 0.9;
+            margin-top: 2px;
+            letter-spacing: 0.3px;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        nav button {
+            background: transparent;
+            color: var(--light-purple);
+            border: 1.5px solid rgba(230, 217, 255, 0.45);
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background: var(--neon-blue);
+            border-color: var(--neon-blue);
+            color: var(--deep-purple);
+            box-shadow: 0 0 14px rgba(0, 224, 255, 0.6);
+            font-weight: 700;
+        }
+
+        /* ----- main layout ----- */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 26px 5% 36px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ----- hero ----- */
+        .hero {
+            background: var(--light-purple);
+            border: 2px solid var(--mid-purple);
+            padding: 42px 25px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 20px -8px rgba(74, 46, 122, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: var(--neon-blue);
+            opacity: 0.08;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            right: -5%;
+            width: 260px;
+            height: 260px;
+            background: var(--orange);
+            opacity: 0.07;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        h1, h2, h3 {
+            color: var(--deep-purple);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            border-bottom: 3px solid var(--neon-blue);
+            padding-bottom: 8px;
+            display: inline-block;
+            margin-bottom: 1.2rem;
+            color: var(--deep-purple);
+        }
+
+        .accent-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .small-badge {
+            background: var(--neon-blue);
+            color: var(--deep-purple);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 224, 255, 0.5);
+        }
+
+        .small-badge.orange {
+            background: var(--orange);
+            color: var(--deep-purple);
+            box-shadow: 0 0 10px rgba(255, 138, 61, 0.6);
+        }
+
+        /* ----- buttons ----- */
+        .btn {
+            background: var(--deep-purple);
+            color: var(--white);
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(42, 27, 77, 0.35);
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--mid-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(42, 27, 77, 0.4);
+        }
+
+        .btn.secondary {
+            background: var(--neon-blue);
+            color: var(--deep-purple);
+            box-shadow: 0 4px 14px rgba(0, 224, 255, 0.45);
+        }
+
+        .btn.secondary:hover {
+            background: #33e6ff;
+            box-shadow: 0 8px 20px rgba(0, 224, 255, 0.7);
+        }
+
+        .btn.orange {
+            background: var(--orange);
+            color: var(--deep-purple);
+            box-shadow: 0 4px 14px rgba(255, 138, 61, 0.5);
+        }
+
+        .btn.orange:hover {
+            background: #ff9b5c;
+        }
+
+        /* ----- grid & cards ----- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 22px;
+            margin: 24px 0;
+        }
+
+        .card {
+            border: 2px solid var(--light-purple);
+            border-radius: 20px;
+            padding: 24px 20px;
+            background: var(--white);
+            transition: all 0.25s;
+            box-shadow: 0 6px 16px -6px rgba(74, 46, 122, 0.12);
+            display: flex;
+            flex-direction: column;
+            border-top: 4px solid var(--mid-purple);
+        }
+
+        .card:hover {
+            border-color: var(--neon-blue);
+            border-top-color: var(--orange);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 24px -8px rgba(42, 27, 77, 0.25);
+        }
+
+        .icon {
+            height: 55px;
+            background: var(--light-purple);
+            border: 2px solid var(--mid-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--deep-purple);
+            border-radius: 14px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge {
+            display: inline-block;
+            border: 2px solid var(--orange);
+            border-radius: 30px;
+            padding: 3px 14px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--deep-purple);
+            background: rgba(255, 138, 61, 0.12);
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .badge.purple {
+            border-color: var(--mid-purple);
+            background: rgba(74, 46, 122, 0.08);
+        }
+
+        .notice {
+            background: var(--light-purple);
+            border-left: 8px solid var(--orange);
+            padding: 18px 24px;
+            margin: 28px 0;
+            border-radius: 0 16px 16px 0;
+            font-size: 0.98rem;
+            color: var(--text-dark);
+            box-shadow: 0 4px 12px -4px rgba(255, 138, 61, 0.15);
+        }
+
+        .notice strong {
+            color: var(--deep-purple);
+        }
+
+        /* ----- plan banner ----- */
+        .plan {
+            background: var(--deep-purple);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 32px 34px;
+            margin: 32px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            box-shadow: 0 12px 28px -6px rgba(42, 27, 77, 0.45);
+            border: 2px solid var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -5%;
+            width: 180px;
+            height: 180px;
+            background: var(--neon-blue);
+            opacity: 0.1;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .plan h2 {
+            color: var(--white);
+            border-bottom: 3px solid var(--neon-blue);
+            margin-bottom: 8px;
+        }
+
+        .plan p {
+            margin: 6px 0 0;
+            opacity: 0.9;
+            color: var(--light-purple);
+        }
+
+        /* ----- table ----- */
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px -8px rgba(42, 27, 77, 0.2);
+            border: 2px solid var(--light-purple);
+            background: white;
+        }
+
+        .compare th, .compare td {
+            border: 1px solid var(--light-purple);
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        .compare th {
+            background: var(--deep-purple);
+            color: var(--neon-blue);
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .compare tr:nth-child(even) {
+            background: #fcfaff;
+        }
+
+        .compare td {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* ----- footer ----- */
+        footer {
+            background: var(--deep-purple);
+            color: var(--white);
+            padding: 34px 5% 30px;
+            text-align: center;
+            margin-top: 48px;
+            border-top: 5px solid var(--neon-blue);
+        }
+
+        footer .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 16px;
+            margin: 16px 0 14px;
+        }
+
+        footer button {
+            background: none;
+            border: none;
+            color: var(--light-purple);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+
+        footer button:hover {
+            background: var(--neon-blue);
+            color: var(--deep-purple);
+            box-shadow: 0 0 16px rgba(0, 224, 255, 0.6);
+        }
+
+        footer .copyright {
+            margin-top: 18px;
+            font-size: 0.8rem;
+            color: var(--light-purple);
+            opacity: 0.7;
+        }
+
+        /* small adjustments */
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0.5rem auto 1.8rem;
+            color: var(--text-soft);
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+            color: var(--deep-purple);
+        }
+
+        .card p {
+            color: var(--text-soft);
+            flex-grow: 1;
+        }
+
+        /* making sure buttons inside cards have proper spacing */
+        .card .btn {
+            margin-top: 16px;
+            align-self: flex-start;
+        }
+
+        /* Adjust for the "plan" button in hero */
+        .hero .btn {
+            background: var(--orange);
+            color: var(--deep-purple);
+            box-shadow: 0 4px 14px rgba(255, 138, 61, 0.45);
+        }
+
+        .hero .btn:hover {
+            background: #ff9b5c;
+        }
+
+        /* family card on home */
+        .family-card {
+            background: var(--light-purple);
+            border: 2px solid var(--mid-purple);
+            border-radius: 20px;
+            padding: 24px 28px;
+            margin-top: 8px;
+        }
+
+        .family-card h2 {
+            border-bottom-color: var(--orange);
+        }
+
+        .family-card .btn {
+            background: var(--mid-purple);
+        }
+
+        .family-card .btn:hover {
+            background: var(--deep-purple);
+        }
+
+        /* responsive touches */
+        @media (max-width: 700px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .plan {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <div class="brand">TANITI</div>
+            <div class="sub">Tropical Island Visitor Guide</div>
+        </div>
+        <nav>
+            <button data-p="home" onclick="show('home')" class="active">Home</button>
+            <button data-p="attractions" onclick="show('attractions')">Attractions</button>
+            <button data-p="transport" onclick="show('transport')">Transportation</button>
+            <button data-p="lodging" onclick="show('lodging')">Lodging</button>
+            <button data-p="food" onclick="show('food')">Food</button>
+            <button data-p="info" onclick="show('info')">Visitor Info</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HOME -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="accent-line" style="justify-content: center;">
+                    <span class="small-badge">NEW</span>
+                    <span class="small-badge orange">VR360°</span>
+                    <span style="color: var(--deep-purple); font-weight: 600; font-size: 0.95rem;">Virtual tours available</span>
+                </div>
+                <h1>Welcome to Taniti</h1>
+                <p>Discover beaches, rainforests, the active volcano, local culture, food, and activities.</p>
+                <button class="btn" onclick="show('plan')">Plan Your Trip</button>
+            </div>
+
+            <div class="plan">
+                <div>
+                    <h2>Plan Your Trip</h2>
+                    <p>Quick access to the information you need before visiting.</p>
+                </div>
+                <button class="btn secondary" onclick="show('attractions')">Start Exploring →</button>
+            </div>
+
+            <h2>Explore the Island</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="icon">ATTRACTIONS</div>
+                    <h3>Attractions</h3>
+                    <p>Beaches, rainforest, volcano, tours, snorkeling, and entertainment.</p>
+                    <button class="btn" onclick="show('attractions')">View Details</button>
+                </div>
+                <div class="card">
+                    <div class="icon">TRANSPORTATION</div>
+                    <h3>Transportation</h3>
+                    <p>Compare buses, taxis, rental cars, bikes, and walking.</p>
+                    <button class="btn" onclick="show('transport')">View Options</button>
+                </div>
+                <div class="card">
+                    <div class="icon">LODGING</div>
+                    <h3>Lodging</h3>
+                    <p>Hostel, hotels, bed and breakfasts, and a four-star resort.</p>
+                    <button class="btn" onclick="show('lodging')">View Lodging</button>
+                </div>
+                <div class="card">
+                    <div class="icon">FOOD</div>
+                    <h3>Food</h3>
+                    <p>Local fish and rice, American-style, Pan-Asian food, and groceries.</p>
+                    <button class="btn" onclick="show('food')">View Food</button>
+                </div>
+            </div>
+
+            <div class="notice">
+                <strong>Before you go:</strong> U.S. dollar • 120-volt power • National holidays can affect attractions and restaurants.
+            </div>
+
+            <div class="family-card">
+                <h2>Family-Friendly Activities</h2>
+                <p style="margin-bottom: 16px;">Quickly find activities highlighted for families traveling with children.</p>
+                <button class="btn" onclick="show('family')">View Family Fun</button>
+            </div>
+        </section>
+
+        <!-- ATTRACTIONS -->
+        <section id="attractions" class="page">
+            <h1>Attractions</h1>
+            <div class="grid">
+                <div class="card"><h3>Beaches</h3><span class="badge">Family-Friendly</span><p>White sandy beaches surround Yellow Leaf Bay near Taniti City.</p></div>
+                <div class="card"><h3>Rainforest</h3><span class="badge">Family-Friendly</span><p>Explore the lush rainforest through hiking and zip-lining.</p></div>
+                <div class="card"><h3>Volcano</h3><p>Visit Taniti's mountainous interior and active volcano.</p></div>
+                <div class="card"><h3>Snorkeling</h3><span class="badge">Family-Friendly</span><p>Enjoy aquatic recreation around the island.</p></div>
+                <div class="card"><h3>Local History Museum</h3><p>Learn about Taniti's history and culture.</p></div>
+                <div class="card"><h3>Merriton Landing</h3><p>Explore the developing entertainment area on Yellow Leaf Bay.</p></div>
+            </div>
+        </section>
+
+        <!-- FAMILY -->
+        <section id="family" class="page">
+            <h1>Family Fun</h1>
+            <p>Family-friendly activities are clearly labeled.</p>
+            <div class="grid">
+                <div class="card"><h3>Beaches</h3><span class="badge">Family-Friendly</span><p>Relax around Yellow Leaf Bay.</p></div>
+                <div class="card"><h3>Rainforest</h3><span class="badge">Family-Friendly</span><p>Explore the rainforest through hiking and other activities.</p></div>
+                <div class="card"><h3>Snorkeling</h3><span class="badge">Family-Friendly</span><p>Enjoy snorkeling as part of an island adventure.</p></div>
+            </div>
+        </section>
+
+        <!-- TRANSPORTATION -->
+        <section id="transport" class="page">
+            <h1>Transportation</h1>
+            <p>Quick-reference comparison for getting around Taniti.</p>
+            <table class="compare">
+                <tr><th>Option</th><th>Where</th><th>Information</th></tr>
+                <tr><td>Public Bus</td><td>Taniti City</td><td>5 a.m.–11 p.m. daily</td></tr>
+                <tr><td>Private Bus</td><td>Rest of island</td><td>Serves areas outside Taniti City</td></tr>
+                <tr><td>Taxi</td><td>Taniti City</td><td>Taxis are available</td></tr>
+                <tr><td>Rental Car</td><td>Near airport</td><td>Available from a local agency</td></tr>
+                <tr><td>Bike</td><td>Several vendors</td><td>Helmets are required by law</td></tr>
+                <tr><td>Walking</td><td>Taniti City / Merriton Landing</td><td>Taniti City is fairly flat and walkable</td></tr>
+            </table>
+        </section>
+
+        <!-- LODGING -->
+        <section id="lodging" class="page">
+            <h1>Lodging</h1>
+            <div class="grid">
+                <div class="card"><h3>Hostel</h3><p>An inexpensive option.</p></div>
+                <div class="card"><h3>Family-Owned Hotels</h3><p>Many small hotels are available.</p></div>
+                <div class="card"><h3>Bed & Breakfasts</h3><p>A growing number are available.</p></div>
+                <div class="card"><h3>Four-Star Resort</h3><p>One large four-star resort is available.</p></div>
+            </div>
+            <div class="notice">All types of lodging are strictly regulated and regularly inspected by the Tanitian government.</div>
+        </section>
+
+        <!-- FOOD -->
+        <section id="food" class="page">
+            <h1>Food & Groceries</h1>
+            <div class="grid">
+                <div class="card"><h3>Local Fish & Rice</h3><p>Five restaurants.</p></div>
+                <div class="card"><h3>American-Style</h3><p>Three restaurants.</p></div>
+                <div class="card"><h3>Pan-Asian</h3><p>Two restaurants.</p></div>
+                <div class="card"><h3>Groceries</h3><p>Two supermarkets, two smaller grocery stores, and one 24-hour convenience store.</p></div>
+            </div>
+        </section>
+
+        <!-- VISITOR INFO -->
+        <section id="info" class="page">
+            <h1>Visitor Information</h1>
+            <div class="grid">
+                <div class="card"><h3>Currency</h3><p>U.S. dollar; some businesses accept euros and yen.</p></div>
+                <div class="card"><h3>Power</h3><p>120 volts.</p></div>
+                <div class="card"><h3>Holidays</h3><p>Attractions and restaurants may close on national holidays.</p></div>
+                <div class="card"><h3>Safety</h3><p>Violent crime is very rare, but pickpocketing and petty crime have increased.</p></div>
+                <div class="card"><h3>Language</h3><p>Many younger Tanitians speak English; less English is spoken in rural areas.</p></div>
+                <div class="card"><h3>Healthcare</h3><p>One hospital and several clinics are available.</p></div>
+            </div>
+        </section>
+
+        <!-- PLAN PAGE -->
+        <section id="plan" class="page">
+            <h1>Plan Your Trip</h1>
+            <div class="grid">
+                <div class="card"><h3>1. Activities</h3><p>Choose attractions and family-friendly options.</p><button class="btn" onclick="show('attractions')">Attractions</button></div>
+                <div class="card"><h3>2. Transportation</h3><p>Compare ways to get around.</p><button class="btn" onclick="show('transport')">Transportation</button></div>
+                <div class="card"><h3>3. Lodging</h3><p>Review accommodations.</p><button class="btn" onclick="show('lodging')">Lodging</button></div>
+                <div class="card"><h3>4. Visitor Info</h3><p>Review practical travel information.</p><button class="btn" onclick="show('info')">Visitor Info</button></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="font-weight: 700; letter-spacing: 1px; color: var(--neon-blue); font-size: 1.1rem;">TANITI</div>
+        <div class="footer-links">
+            <button onclick="show('home')">Home</button>
+            <button onclick="show('attractions')">Attractions</button>
+            <button onclick="show('transport')">Transportation</button>
+            <button onclick="show('lodging')">Lodging</button>
+            <button onclick="show('food')">Food</button>
+            <button onclick="show('info')">Visitor Info</button>
+        </div>
+        <div class="copyright">© Taniti Visitor Guide — interactive prototype</div>
+    </footer>
+
+    <script>
+        function show(id) {
+            document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('nav button').forEach(x => {
+                x.classList.toggle('active', x.dataset.p === id);
+            });
+            window.scrollTo(0, 0);
+        }
+        // highlight home on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const homeBtn = document.querySelector('nav button[data-p="home"]');
+            if (homeBtn) homeBtn.classList.add('active');
+        });
+    </script>
+</body>
+</html>
